@@ -1,10 +1,10 @@
 
 
-function SearchPage() {
+function SearchDetailPage() {
     return (
         <h1>Hello World</h1>
     )
 }
 
 
-export default SearchPage
+export default SearchDetailPage
