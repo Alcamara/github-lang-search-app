@@ -2,10 +2,38 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const router = (0, express_1.Router)();
-router.get("/lang", async (req, res) => {
-    const result = await getPopulationRepoByLanguage();
-    console.log(result?.data.items);
-    res.send("Golang");
+router.get("/", async (req, res) => {
+    const response = await getPopulationRepoByLanguage("JavaScript", 1, 10);
+    const results = response?.data.items?.map((repo) => ({
+        name: repo.name,
+        ownerProfile: repo.owner?.html_url,
+        starCount: repo.stargazers_count,
+        forkCount: repo.forks_count,
+        issueCount: repo?.open_issues_count,
+        url: repo.html_url,
+        description: repo.description,
+        licenseInfo: repo.license?.name || "n/a",
+    })) ?? [];
+    res.send(results);
+});
+router.get("/language", async (req, res) => {
+    const { lang } = req.query;
+    if (lang == null) {
+        res.sendStatus(400);
+    }
+    const l = `${lang}`;
+    const response = await getPopulationRepoByLanguage(l, 1, 10);
+    const results = response?.data.items?.map((repo) => ({
+        name: repo.name,
+        ownerProfile: repo.owner?.html_url,
+        starCount: repo.stargazers_count,
+        forkCount: repo.forks_count,
+        issueCount: repo?.open_issues_count,
+        url: repo.html_url,
+        description: repo.description,
+        licenseInfo: repo.license?.name || "n/a",
+    })) ?? [];
+    res.send(results);
 });
 async function OctokitInit() {
     try {
@@ -16,16 +44,15 @@ async function OctokitInit() {
         console.error(err);
     }
 }
-async function getPopulationRepoByLanguage() {
+async function getPopulationRepoByLanguage(lang, numPage, numPerPage) {
     try {
-        const language = "javascript";
         const octokit = await OctokitInit();
         return await octokit?.request(`GET /search/repositories`, {
-            q: `language:${"c#"}`,
+            q: `language:${lang}`,
             sort: "stars",
             order: "desc",
-            per_page: 10,
-            page: 10,
+            per_page: numPerPage,
+            page: numPage,
         });
     }
     catch (err) {
