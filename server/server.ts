@@ -1,6 +1,6 @@
 import express, { Application } from 'express';
 import cors from 'cors'
-import searchRouter from '../server/routes/search.router.js'
+import searchRouter from '../server/routes/search.router'
 import dotenv from 'dotenv';
 dotenv.config()
 
