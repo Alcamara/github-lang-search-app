@@ -18,12 +18,15 @@ function SearchPage() {
                 <div className="mx-auto mt-8 max-w-xl">
                     <form action="#" className="sm:flex sm:gap-4">
                         <div className="sm:flex-1">
-                            <label htmlFor="email" className="sr-only">Email</label>
-                            <input
-                                type="email"
-                                placeholder="Select Language"
-                                className="w-full rounded-md border-gray-200 bg-white p-3 text-gray-700 shadow-xs transition focus:border-white focus:ring-3 focus:ring-yellow-400 focus:outline-hidden"
-                            />
+                            <select
+                                name="HeadlineAct"
+                                id="HeadlineAct"
+                                className="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm"
+                            >
+                                <option value="javascript">Javascript</option>
+                                <option value="csharp">C#</option>
+                                <option value="typeScript">TypeScript</option>
+                            </select>
                         </div>
 
                         <button
