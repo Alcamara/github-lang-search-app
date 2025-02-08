@@ -1,9 +1,13 @@
 import { Grid } from "gridjs-react"
+import { useNavigate } from "react-router-dom";
 import "gridjs/dist/theme/mermaid.css";
 import "./SearchPage.css"
 import { h } from "gridjs";
 
 function SearchPage() {
+    const navigate = useNavigate()
+    const handleClick = () => navigate('/detail')
+
     return (
     <>
         <section className="bg-gray-50">
@@ -30,10 +34,10 @@ function SearchPage() {
                         </div>
 
                         <button
-                        type="submit"
-                        className="group mt-4 flex w-full items-center justify-center gap-2 rounded-md bg-rose-600 px-5 py-3 text-white transition focus:ring-3 focus:ring-yellow-400 focus:outline-hidden sm:mt-0 sm:w-auto"
+                            type="submit"
+                            className="group mt-4 flex w-full items-center justify-center gap-2 rounded-md bg-rose-600 px-5 py-3 text-white transition focus:ring-3 focus:ring-yellow-400 focus:outline-hidden sm:mt-0 sm:w-auto"
                         >
-                        <span className="text-sm font-medium"> Search </span>
+                            <span className="text-sm font-medium">Search</span>
                         </button>
                     </form>
                 </div>
@@ -55,8 +59,8 @@ function SearchPage() {
                             name: "Action",
                             formatter: (cell, row) => {
                                 return h('button', {
-                                    className: 'py-2 mb-4 px-4 border rounded-md text-white bg-blue-600',
-                                    onClick: () => alert(`Test`)
+                                    className: 'py-2 mb-4 px-4 border rounded-md text-white bg-rose-600',
+                                    onClick: () => handleClick()
                                 }, "Details")
                             }
                         }
