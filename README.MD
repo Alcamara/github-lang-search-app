@@ -4,13 +4,13 @@
 
 ```
 /my-project
-├── /client        # React Vite frontend
+├── /client       
 │   ├── /src
 │   ├── vite.config.ts
 │   ├── package.json
 │   ├── tsconfig.json
 │   └── ...
-├── /server        # Express backend
+├── /server        
 │   ├── /src
 │   │   ├── /routes
 │   │   │   ├── userRoutes.ts
