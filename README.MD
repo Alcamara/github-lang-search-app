@@ -13,7 +13,7 @@ Users can also customize their search by selecting from three different programm
 
 ## Screen Shot
 
-![GIPHY 2](/github-lang-search-app/src/assets/firefox_FltTAeaZn1.gif)
+![GIPHY 2](/github-lang-search-app/src/assets/Mi87c7D1IE.gif)
 
 ## Prerequisites
 
