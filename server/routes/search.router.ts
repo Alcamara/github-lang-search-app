@@ -1,5 +1,4 @@
 import { Router, Request, Response } from "express";
-import { SearchResult } from "../models/searchModel";
 
 const router = Router()
 
