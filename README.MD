@@ -3,9 +3,9 @@
 
 ## Description
 
-This web app allows users to search for popular GitHub repositories by programming language. By default, the page loads popular JavaScript repositories.
+This web app allows users to search for popular GitHub repositories by programming language. 
 
-Repositories are displayed in a three-column grid below the search section. Each entry includes a link to the repository, a brief description, and an action button. Users can click the repository URL to visit it directly or select the "Details" button to view more information on a dedicated details page.
+By default, the page loads popular JavaScript repositories. Repositories are displayed in a three-column grid below the search section. Each entry includes a link to the repository, a brief description, and an action button. Users can click the repository URL to visit it directly or select the "Details" button to view more information on a dedicated details page.
 
 The details page provides additional insights, including the repository's title, a link to the owner's profile, a description, star count, fork count, issue count, and license information.
 
