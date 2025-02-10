@@ -32,7 +32,6 @@ router.get("/language", async (req: Request, res: Response) => {
 
     const l = `${lang}`
 
-
     const response = await getPopulationRepoByLanguage(l, 1, reposPerPage);
     const results = response?.data.items?.map((repo) =>  ({
         id: repo.id,
