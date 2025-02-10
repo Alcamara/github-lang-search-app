@@ -72,7 +72,7 @@ function SearchPage() {
                 <div className="mx-auto max-w-lg text-center">
                     <h1 className="text-3xl font-extrabold sm:text-5xl">
                         Find Popular Github Repos
-                        <strong className="font-extrabold text-red-700 sm:block"> By Lanaguage </strong>
+                        <strong className="font-extrabold text-red-700 sm:block"> By Programming Lanaguage </strong>
                     </h1>
                 </div>
 
