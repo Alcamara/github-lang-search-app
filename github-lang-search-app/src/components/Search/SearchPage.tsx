@@ -1,12 +1,70 @@
+import { useEffect, useState } from "react";
 import { Grid } from "gridjs-react"
 import { useNavigate } from "react-router-dom";
+import GitHubApi from '.././../api/GitHubApi'
 import "gridjs/dist/theme/mermaid.css";
 import "./SearchPage.css"
 import { h } from "gridjs";
+import { SearchResult } from "../../models/searchModel";
 
 function SearchPage() {
+    const [tableData, setTableData] = useState<SearchResult[]>([])
+    const [error, setError] = useState(null)
+    const [selectedLang, setSelectedLang] = useState('javascript')
+    const [selectedReposPerPage, setReposPerPage] = useState(0);
+    const [searchResultMap, setSearchResultMap] = useState<Map<number, SearchResult>>(new Map())
+
     const navigate = useNavigate()
-    const handleClick = () => navigate('/detail')
+    const handleClick = (repoDetail: SearchResult) => {
+        navigate(`/detail/${repoDetail.id}`, {
+            state: repoDetail
+        })
+    }
+    const onLangSelect = (event) => setSelectedLang(event.target.value)
+    const onRepoNumSelect = (event) => setReposPerPage(event.target.value)
+    const onNumPageSelect = (event) => setNumPage(event.target.value)
+    
+    const onRepoSearch = async () => {
+        try {
+            if (selectedReposPerPage === 0) {
+                return
+            }
+            
+            const repos = await GitHubApi.getPopularReposByLang(selectedLang, selectedReposPerPage)
+            if (repos != undefined) {
+                setSearchResultMap(() => {
+                    const newMap = new Map()
+                    repos.forEach((r) => newMap.set(r.id,r))
+                    return newMap
+                })
+                setTableData(repos)
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const fetchDefaultData = async () => {
+        try {
+            const repos = await GitHubApi.getPopularJavaScriptRepos()
+            if(repos != undefined ) {
+                setSearchResultMap((prevMap) => {
+                    const newMap = new Map(prevMap)
+                    repos.forEach((r) => newMap.set(r.id,r))
+                    return newMap
+                })
+
+                setTableData(repos)
+            }
+        } catch (error) {
+            setError(null)
+        }
+           
+    }
+
+    useEffect(() => {
+        fetchDefaultData()    
+    },[])
 
     return (
     <>
@@ -20,16 +78,40 @@ function SearchPage() {
                 </div>
 
                 <div className="mx-auto mt-8 max-w-xl">
-                    <form action="#" className="sm:flex sm:gap-4">
-                        <div className="sm:flex-1">
+                    <form 
+                        onSubmit={ async (event) => {
+                            event.preventDefault()
+                            await onRepoSearch()
+                        }} 
+                        className="sm:flex sm:gap-4"
+                        >
+                        <div className="bg-white sm:flex-1">
                             <select
+                                value={selectedLang}
+                                onChange={onLangSelect}
                                 name="HeadlineAct"
                                 id="HeadlineAct"
-                                className="mt-1.5 w-full rounded-lg border-gray-300 text-gray-700 sm:text-sm"
+                                className="mt-1.5 w-full rounded-lg border-gray-300 bg-white text-gray-700 sm:text-sm"
                             >
                                 <option value="javascript">Javascript</option>
                                 <option value="csharp">C#</option>
                                 <option value="typeScript">TypeScript</option>
+                            </select>
+                        </div>
+
+                        <div className="bg-white  sm:flex-1">
+                            <select
+                                value={selectedReposPerPage}
+                                onChange={onRepoNumSelect}
+                                name="HeadlineAct"
+                                id="HeadlineAct"
+                                className="mt-1.5 w-full rounded-lg border-gray-300 bg-white text-gray-700 sm:text-sm"
+                            >
+                                <option value={0}>Select Top ...</option>
+                                <option value={10}>10</option>
+                                <option value={25}>25</option>
+                                <option value={25}>50</option>
+                                <option value={100}>100</option>
                             </select>
                         </div>
 
@@ -46,28 +128,53 @@ function SearchPage() {
         <section className="search_grid grid">
             <div className=" h-32 rounded-lg bg-gray-200">
                 <Grid
-                    data={
-                        [
-                            ["Link", "Description", "Action"],
-                            ["Link", "Description", "Action"]
-                        ]
-                    }
+                    data={tableData}
                     columns={[
-                        "Link",
+                        {
+                            name: "ID",
+                            hidden: 1
+                        },
+                        {
+                            name: "URL",
+                            formatter: (cell, row) => {
+                                return h("a", {
+                                    onClick: () => window.open(cell?.toString(), "_blank")
+                                }, cell)
+                            }
+                        },
+                        {
+                            name: "Star Count",
+                            sort: {
+                                compare: (a: number, b: number) => {
+                                    if (a > b) {
+                                        return 1;
+                                      } else if (b > a) {
+                                        return -1;
+                                      } else {
+                                        return 0;
+                                    }
+                                }
+                            },
+                            hidden: 1 
+                        },
                         "Description",
                         {
                             name: "Action",
                             formatter: (cell, row) => {
                                 return h('button', {
                                     className: 'py-2 mb-4 px-4 border rounded-md text-white bg-rose-600',
-                                    onClick: () => handleClick()
+                                    onClick: () => {
+                                        const id = row.cells[0].data
+                                        const repo = searchResultMap.get(id)
+                                        handleClick(repo)
+                                    }
                                 }, "Details")
                             }
                         }
                     ]}
                     search={false}
                     pagination={{
-                        limit: 1
+                        limit: 10
                     }}
                 /> 
             </div>
