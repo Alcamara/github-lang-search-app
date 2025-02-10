@@ -9,7 +9,6 @@ import { SearchResult } from "../../models/searchModel";
 
 function SearchPage() {
     const [tableData, setTableData] = useState<SearchResult[]>([])
-    const [error, setError] = useState(null)
     const [selectedLang, setSelectedLang] = useState('javascript')
     const [selectedReposPerPage, setReposPerPage] = useState(0);
     const [searchResultMap, setSearchResultMap] = useState<Map<number, SearchResult>>(new Map())
@@ -20,9 +19,8 @@ function SearchPage() {
             state: repoDetail
         })
     }
-    const onLangSelect = (event) => setSelectedLang(event.target.value)
-    const onRepoNumSelect = (event) => setReposPerPage(event.target.value)
-    const onNumPageSelect = (event) => setNumPage(event.target.value)
+    const onLangSelect = (event: any) => setSelectedLang(event.target.value)
+    const onRepoNumSelect = (event: any) => setReposPerPage(event.target.value)
     
     const onRepoSearch = async () => {
         try {
@@ -57,7 +55,8 @@ function SearchPage() {
                 setTableData(repos)
             }
         } catch (error) {
-            setError(null)
+            console.log(error);
+            
         }
            
     }
@@ -166,7 +165,10 @@ function SearchPage() {
                                     onClick: () => {
                                         const id = row.cells[0].data
                                         const repo = searchResultMap.get(id)
-                                        handleClick(repo)
+
+                                        if (repo != undefined) {
+                                            handleClick(repo)   
+                                        }
                                     }
                                 }, "Details")
                             }

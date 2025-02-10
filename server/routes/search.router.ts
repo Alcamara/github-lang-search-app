@@ -10,6 +10,7 @@ router.get("/", async (req: Request, res: Response) => {
     const results = response?.data.items?.map((repo) =>  ({
         id: repo.id,
         name: repo.name,
+        ownerName: repo.owner?.name,
         ownerProfile: repo.owner?.html_url,
         starCount: repo.stargazers_count,
         forkCount: repo.forks_count,
