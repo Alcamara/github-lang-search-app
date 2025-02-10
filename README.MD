@@ -20,7 +20,6 @@ Users can also customize their search by selecting from three different programm
 Before you get started, make sure you have the following software installed on your computer:
 
 - [Node.js](https://nodejs.org/en/)
-- [Nodemon](https://nodemon.io/)
 
 ## Development Setup Instructions
 
