@@ -1,5 +1,5 @@
 
-# Popular Github Repos By Programming Language Searh App
+# Popular Github Repos By Programming Language Search App
 
 ## Description
 
