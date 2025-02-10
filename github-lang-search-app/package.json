@@ -12,6 +12,7 @@
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "@tailwindcss/vite": "^4.0.4",
+    "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
     "flyonui": "^1.3.0",
     "gridjs": "^6.2.0",
